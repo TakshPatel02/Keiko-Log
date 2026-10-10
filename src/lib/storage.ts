@@ -1,5 +1,5 @@
 export type VideoProgress = {
-  completedAt: string; // ISO string
+  completedAt?: string; // ISO string
   note: string;
 };
 
@@ -33,11 +33,33 @@ export function saveState(state: TrackerState) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-export function markVideoComplete(videoId: string, note: string) {
+export function completeVideo(videoId: string, note: string) {
   const state = getState();
+  const existing = state.progress[videoId];
+  
+  if (existing?.completedAt) {
+    throw new Error("Video is already completed.");
+  }
+  
+  if (!note || note.trim() === "") {
+    throw new Error("A note is required to complete a video.");
+  }
+
   state.progress[videoId] = {
+    ...existing,
     completedAt: new Date().toISOString(),
-    note,
+    note: note.slice(0, 2000), // Max 2000 chars
+  };
+  saveState(state);
+}
+
+export function saveNote(videoId: string, note: string) {
+  const state = getState();
+  const existing = state.progress[videoId];
+  
+  state.progress[videoId] = {
+    ...existing,
+    note: note.slice(0, 2000),
   };
   saveState(state);
 }
