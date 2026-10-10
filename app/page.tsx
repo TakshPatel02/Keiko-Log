@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="relative h-dvh w-full overflow-hidden flex items-center justify-center bg-bg">
+    <div className="relative h-dvh w-full overflow-hidden flex items-center justify-center bg-bg select-none">
       {/* Background Images for Art Direction */}
       <div className="absolute inset-0 z-0">
         {/* Desktop Background */}
