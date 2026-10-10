@@ -4,15 +4,28 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="relative h-dvh w-full overflow-hidden flex items-center justify-center bg-bg">
-      {/* Background Image */}
+      {/* Background Images for Art Direction */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/home-bg.webp"
-          alt="Keiko background"
-          fill
-          priority
-          className="object-cover object-[left_center]"
-        />
+        {/* Desktop Background */}
+        <div className="hidden sm:block absolute inset-0">
+          <Image
+            src="/home-bg.webp"
+            alt="Keiko background"
+            fill
+            priority
+            className="object-cover object-[left_center]"
+          />
+        </div>
+        {/* Mobile Background */}
+        <div className="block sm:hidden absolute inset-0">
+          <Image
+            src="/home-mobile-bg.webp"
+            alt="Keiko background mobile"
+            fill
+            priority
+            className="object-cover object-center"
+          />
+        </div>
         {/* Contrast overlays */}
         <div
           className="absolute inset-0"
