@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -45,7 +46,31 @@ export default function Home() {
         <h1 className="font-medium text-[clamp(1.875rem,4vw,2.75rem)] leading-[1.1] text-text mb-6">
           One problem at a time.
         </h1>
+
+        {/* Subtext */}
+        <p className="text-base sm:text-lg leading-relaxed text-muted mb-8">
+          Your DSA playlists, tracked and finished. Mark a video complete, write
+          what you solved, and watch the list shrink.
+        </p>
+
+        {/* CTA Button */}
+        <Link
+          href="/playlists"
+          className="bg-accent text-on-accent rounded px-6 py-2.5 font-medium transition-all hover:bg-accent-hover hover:shadow-[0_0_20px_rgba(184,50,40,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+        >
+          Enter the dojo
+        </Link>
+
+        {/* Microcopy */}
+        <p className="mt-4 text-sm text-muted">
+          No account. Saved on this device. Completed is final.
+        </p>
       </main>
+
+      {/* Footer */}
+      <div className="absolute bottom-6 right-6 z-10">
+        <span className="text-sm text-muted opacity-80">Built by Taksh</span>
+      </div>
     </div>
   );
 }
