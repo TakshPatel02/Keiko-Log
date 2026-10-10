@@ -1,5 +1,7 @@
 "use client";
 
+import { motion, AnimatePresence } from "motion/react";
+
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -165,10 +167,8 @@ export default function PlaylistClient({
             return (
               <div
                 key={video.id}
-                className={`bg-surface border rounded-md transition-colors ${
+                className={`bg-surface border overflow-hidden rounded-md transition-colors ${
                   isExpanded ? "border-[#3A3A3A]" : "border-border hover:border-[#3A3A3A]"
-                } ${isNext ? "border-l-2 border-l-accent" : ""} ${
-                  isCompleted && !isNext ? "border-l-2 border-l-accent/50" : ""
                 }`}
               >
                 <button
@@ -223,28 +223,37 @@ export default function PlaylistClient({
                   </div>
                 </button>
 
-                {isExpanded && (
-                  <div className="px-4 sm:px-5 pb-5 pt-2">
-                    <p className="text-muted mb-4">{video.description}</p>
-                    {video.url && (
-                      <a
-                        href={video.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block text-text text-sm mb-6 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text rounded"
-                      >
-                        Open video ↗
-                      </a>
-                    )}
-                    
-                    <VideoNoteEditor
-                      videoId={video.id}
-                      initialNote={progress?.note || ""}
-                      isCompleted={isCompleted}
-                      onCompleteRequest={() => setConfirmDialog({ isOpen: true, videoId: video.id })}
-                    />
-                  </div>
-                )}
+                <AnimatePresence initial={false}>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <div className="px-4 sm:px-5 pb-5 pt-2">
+                        <p className="text-muted mb-4">{video.description}</p>
+                        {video.url && (
+                          <a
+                            href={video.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block text-text text-sm mb-6 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text rounded"
+                          >
+                            Open video ↗
+                          </a>
+                        )}
+                        
+                        <VideoNoteEditor
+                          videoId={video.id}
+                          initialNote={progress?.note || ""}
+                          isCompleted={isCompleted}
+                          onCompleteRequest={() => setConfirmDialog({ isOpen: true, videoId: video.id })}
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}
