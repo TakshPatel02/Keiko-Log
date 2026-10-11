@@ -265,5 +265,72 @@ export const playlists: Playlist[] = [
         url: "https://youtu.be/prIECG21x50"
       }
     ],
-  }
+  },
+  {
+    id: "leetcode-string",
+    title: "Chai aur LeetCode (String)",
+    description: "String problems from LeetCode, from basics to KMP and backtracking.",
+    videos: [
+      {
+        id: "leetcode-string-001",
+        title: "Check If Two String Arrays Are Equivalent",
+        description: "Uses two-pointer iteration on word and character indices for space efficiency.", 
+        url: "https://youtu.be/r7Q2WoQb2TA"
+      },
+      { 
+        id: "leetcode-string-002", 
+        title: "Check If the Sentence Is a Pangram", 
+        description: "Uses a boolean array and frequency count to track character occurrences.", 
+        url: "https://youtu.be/IV-IR4r816k"
+      },
+      { 
+        id: "leetcode-string-003", 
+        title: "Delete Columns to Make Sorted", 
+        description: "Traverse columns to check lexicographical order and count unsorted ones.", 
+        url: "https://youtu.be/zcZjACp6IOo" 
+      },
+      { 
+        id: "leetcode-string-004", 
+        title: "Find the Index of the First Occurrence in a String", 
+        description: "Uses a nested loop brute force approach to find string occurrence.", 
+        url: "https://youtu.be/W7Yu5Q0v4tY" 
+      },
+      { 
+        id: "leetcode-string-005", 
+        title: "Repeated Substring Pattern", 
+        description: "Checks if string length is divisible by potential repeated substring lengths.", 
+        url: "https://youtu.be/i4TImdOCeaI" 
+      },
+      { 
+        id: "leetcode-string-006", 
+        title: "String Compression", 
+        description: "Uses two-pointer approach for in-place character compression on the input array.", 
+        url: "https://youtu.be/cT7QT9JdMIk"
+      },
+      { 
+        id: "leetcode-string-007", 
+        title: "Integer to Roman", 
+        description: "Map integers to Roman numerals using a greedy approach with stored pairs.", 
+        url: "https://youtu.be/duJJHuGjiu0"
+      },
+      { 
+        id: "leetcode-string-008", 
+        title: "Restore IP Addresses", 
+        description: "Uses recursive backtracking to partition a numeric string into valid IP segments.",
+        url: "https://youtu.be/txHKbaQ_4nk", 
+      },
+      { 
+        id: "leetcode-string-009", 
+        title: "Number of Laser Beams in a Bank", 
+        description: "Multiplies consecutive non-zero row counts of security devices to sum total beams.", 
+        url: "https://youtu.be/x-3mRomOVB0"
+      },
+      { 
+        id: "leetcode-string-010", 
+        title: "Reverse Words in a String", 
+        description: "Reversing strings and pointers to rearrange words while removing extra spaces.", 
+        url: "https://youtu.be/VKHNtW3NXTQ"
+      },
+    ],
+  },
 ];
