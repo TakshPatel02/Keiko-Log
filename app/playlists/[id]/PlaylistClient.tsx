@@ -8,11 +8,6 @@ import Image from "next/image";
 import { Playlist, Video } from "@/src/data/playlists";
 import { getState, TrackerState, completeVideo, saveNote } from "@/src/lib/storage";
 
-const KANJI_NUMERALS = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
-function getKanji(index: number) {
-  if (index < KANJI_NUMERALS.length) return KANJI_NUMERALS[index];
-  return (index + 1).toString();
-}
 
 type FilterType = "All" | "Remaining" | "Completed";
 
@@ -115,7 +110,9 @@ export default function PlaylistClient({
         <header className="mb-10">
           <div className="flex items-baseline flex-wrap gap-x-4 gap-y-2 mb-3">
             <div className="flex items-center gap-3">
-              <span className="text-[1.75rem] text-muted font-light">{getKanji(index)}</span>
+              <span className="text-[1.75rem] text-faint font-light">
+                {String(index + 1).padStart(2, "0")}
+              </span>
               <h1 className="text-[2rem] font-medium leading-none">{playlist.title}</h1>
             </div>
             <div className="flex items-center gap-2">
@@ -124,9 +121,8 @@ export default function PlaylistClient({
                   Completed Series
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded border border-accent/30 text-accent bg-accent/5 font-normal">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                  Ongoing Series
+                <span className="text-xs px-2 py-0.5 rounded border border-border text-muted font-normal">
+                  Still releasing
                 </span>
               )}
               {isAllComplete && (
