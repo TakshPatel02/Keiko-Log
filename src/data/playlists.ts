@@ -169,4 +169,101 @@ export const playlists: Playlist[] = [
       },
     ],
   },
+  {
+    id: "leetcode-array",
+    title: "Chai aur LeetCode (Array)",
+    description: "Pattern-based LeetCode practice on arrays: two pointers, sliding window.",
+    videos: [
+      {
+        id: "leetcode-array-001",
+        title: "Remove Duplicates from Sorted Array",
+        description: "Use the two pointers approach to remove duplicates in-place.",
+        url: "https://youtu.be/GKcoKCxBh5U"
+      },
+      {
+        id: "leetcode-array-002",
+        title: "Search Insert Position",
+        description: "Binary search algorithm to find or insert a target in arrays.",
+        url: "https://youtu.be/G5cHT9qoO60"
+      },
+      {
+        id: "leetcode-array-003",
+        title: "Merge Sorted Array",
+        description: "Merge two sorted arrays in-place using the reverse two pointers technique.",
+        url: "https://youtu.be/gBu2ZdN0cUA"
+      },
+      {
+        id: "leetcode-array-004",
+        title: "Plus One",
+        description: "Reverse iteration with carry-over logic for handling array digit increments.",
+        url: "https://youtu.be/93Ph9cVdYtw"
+      },
+      {
+        id: "leetcode-array-005",
+        title: "Best Time to Buy and Sell Stock",
+        description: "Use a single pass iteration to track minimum price and profit.",
+        url: "https://youtu.be/KLyCmXhJnsI"
+      },
+      {
+        id: "leetcode-array-006",
+        title: "Move Zeros",
+        description: "Solve using the two-pointer technique to move zeros in-place.",
+        url: "https://youtu.be/irRDW2MOR2M"
+      },
+      {
+        id: "leetcode-array-007",
+        title: "Island Perimeter",
+        description: "Traverse a 2D matrix using nested loops to calculate grid boundaries.",
+        url: "https://youtu.be/puBAde5Kivo"
+      },
+      {
+        id: "leetcode-array-008",
+        title: "Maximum Subarray",
+        description: "Solving maximum subarray sum using Kadane's Algorithm for optimal performance.",
+        url: "https://youtu.be/L3bxyM9erXE"
+      },
+      {
+        id: "leetcode-array-009",
+        title: "Sort Colors",
+        description: "Sorts 0s, 1s, and 2s using the three pointers Dutch National Flag algorithm.",
+        url: "https://youtu.be/4x84gWdW9-M"
+      },
+      {
+        id: "leetcode-array-010",
+        title: "Spiral Matrix",
+        description: "Traverse a matrix spirally using four boundary pointers and simulation.",
+        url: "https://youtu.be/VwF3SU4r0YI"
+      },
+      {
+        id: "leetcode-array-011",
+        title: "Rotate Array",
+        description: "Rotate array using the triple reversal technique for optimal performance.",
+        url: "https://youtu.be/vhYV9rSpqdg"
+      },
+      {
+        id: "leetcode-array-012",
+        title: "Two Sum",
+        description: "Solves using hash map technique to achieve linear time complexity.",
+        url: "https://youtu.be/zd285Gs_10w"
+      },
+      {
+        id: "leetcode-array-013",
+        title: "Three Sum",
+        description: "Solve using sorting and the three pointers technique to find triplets.",
+        url: "https://youtu.be/NcZDuAOBb2M"
+      },
+      {
+        id: "leetcode-array-014",
+        title: "Find Missing and Repeated Number",
+        description: "Find missing and repeated numbers using XOR bit manipulation technique.",
+        url: "https://youtu.be/q-SsQ0yz2jo"
+      },
+      {
+        id: "leetcode-array-015",
+        title: "Kth Largest Element in an Array",
+        description: "Find the kth largest element using a min-heap priority queue approach.",
+        url: "https://youtu.be/prIECG21x50"
+      }
+    ],
+  }
 ];
