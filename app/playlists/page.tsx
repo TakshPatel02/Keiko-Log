@@ -7,10 +7,15 @@ import { motion, AnimatePresence } from "motion/react";
 import { playlists } from "@/src/data/playlists";
 import { getState, TrackerState, exportState, importState } from "@/src/lib/storage";
 
-const KANJI_NUMERALS = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
-function getKanji(index: number) {
-  if (index < KANJI_NUMERALS.length) return KANJI_NUMERALS[index];
-  return (index + 1).toString();
+const LAST_EXPORTED_KEY = "keiko:lastExportedAt";
+
+function formatLastExported(isoDate: string | null): string {
+  if (!isoDate) return "Never exported";
+  const date = new Date(isoDate);
+  const diffMs = Date.now() - date.getTime();
+  if (isNaN(diffMs) || diffMs < 0) return "Never exported";
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  return `Last exported ${diffDays} day${diffDays === 1 ? "" : "s"} ago`;
 }
 
 interface PendingImport {
@@ -26,12 +31,18 @@ interface NotificationState {
 
 export default function PlaylistsPage() {
   const [state, setState] = useState<TrackerState | null>(null);
+  const [lastExportedAt, setLastExportedAt] = useState<string | null>(null);
   const [pendingImport, setPendingImport] = useState<PendingImport | null>(null);
+  const [replaceConfirmText, setReplaceConfirmText] = useState("");
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setState(getState());
+    const stored = localStorage.getItem(LAST_EXPORTED_KEY);
+    if (stored) {
+      setLastExportedAt(stored);
+    }
   }, []);
 
   // Auto-dismiss notification after 4 seconds
@@ -48,7 +59,7 @@ export default function PlaylistsPage() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (pendingImport) {
-          setPendingImport(null);
+          handleCancelImport();
         } else if (notification) {
           setNotification(null);
         }
@@ -65,13 +76,25 @@ export default function PlaylistsPage() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "keiko-progress.json";
+
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      const filename = `keiko-progress-${yyyy}-${mm}-${dd}.json`;
+      a.download = filename;
+
       a.click();
       URL.revokeObjectURL(url);
+
+      const nowIso = d.toISOString();
+      localStorage.setItem(LAST_EXPORTED_KEY, nowIso);
+      setLastExportedAt(nowIso);
+
       setNotification({
         type: "success",
         title: "Progress exported",
-        message: "keiko-progress.json has been downloaded.",
+        message: `${filename} has been downloaded.`,
       });
     } catch {
       setNotification({
@@ -101,6 +124,7 @@ export default function PlaylistsPage() {
             (item: any) => item && typeof item === "object" && item.completedAt
           ).length;
 
+          setReplaceConfirmText("");
           setPendingImport({
             rawContent: content,
             incomingCompletedCount: completedCount,
@@ -131,6 +155,7 @@ export default function PlaylistsPage() {
     if (!pendingImport) return;
     const ok = importState(pendingImport.rawContent);
     setPendingImport(null);
+    setReplaceConfirmText("");
 
     if (ok) {
       setState(getState());
@@ -150,6 +175,7 @@ export default function PlaylistsPage() {
 
   const handleCancelImport = () => {
     setPendingImport(null);
+    setReplaceConfirmText("");
   };
 
   if (!state) {
@@ -176,6 +202,13 @@ export default function PlaylistsPage() {
     };
   });
 
+  const isLossyImport =
+    pendingImport !== null && pendingImport.incomingCompletedCount < totalCompleted;
+  const removedCount = isLossyImport
+    ? totalCompleted - pendingImport.incomingCompletedCount
+    : 0;
+  const canConfirmImport = !isLossyImport || replaceConfirmText === "REPLACE";
+
   return (
     <div className="relative min-h-dvh bg-bg text-text pb-20">
       {/* Background Layer */}
@@ -201,26 +234,31 @@ export default function PlaylistsPage() {
             <Link href="/" className="font-light text-2xl text-muted hover:text-text transition-colors">
               稽古
             </Link>
-            <div className="flex gap-4">
-              <button
-                onClick={handleExport}
-                className="px-4 py-2 bg-transparent border border-border text-muted text-sm rounded transition-colors hover:text-text hover:border-[#3A3A3A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text focus-visible:ring-offset-2 focus-visible:ring-offset-bg cursor-pointer"
-              >
-                Export
-              </button>
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="px-4 py-2 bg-transparent border border-border text-muted text-sm rounded transition-colors hover:text-text hover:border-[#3A3A3A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text focus-visible:ring-offset-2 focus-visible:ring-offset-bg cursor-pointer"
-              >
-                Import
-              </button>
-              <input
-                type="file"
-                accept=".json"
-                ref={fileInputRef}
-                onChange={handleFileSelect}
-                className="hidden"
-              />
+            <div className="flex flex-col items-end gap-1.5">
+              <div className="flex gap-4">
+                <button
+                  onClick={handleExport}
+                  className="px-4 py-2 bg-transparent border border-border text-muted text-sm rounded transition-colors hover:text-text hover:border-[#3A3A3A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text focus-visible:ring-offset-2 focus-visible:ring-offset-bg cursor-pointer"
+                >
+                  Export
+                </button>
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-4 py-2 bg-transparent border border-border text-muted text-sm rounded transition-colors hover:text-text hover:border-[#3A3A3A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text focus-visible:ring-offset-2 focus-visible:ring-offset-bg cursor-pointer"
+                >
+                  Import
+                </button>
+                <input
+                  type="file"
+                  accept=".json"
+                  ref={fileInputRef}
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+              </div>
+              <span className="text-xs text-muted">
+                {formatLastExported(lastExportedAt)}
+              </span>
             </div>
           </div>
 
@@ -252,12 +290,13 @@ export default function PlaylistsPage() {
                   className="block bg-surface border border-border rounded-md p-5 transition-all duration-150 hover:border-[#3A3A3A] motion-safe:hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text focus-visible:ring-offset-2 focus-visible:ring-offset-bg shadow-none"
                 >
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-[1.75rem] text-muted font-light">{getKanji(index)}</span>
+                    <span className="text-[1.75rem] text-faint font-light">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                     <div className="flex items-center gap-2">
                       {!playlist.completed && (
-                        <span className="inline-flex items-center gap-1.5 text-[0.75rem] px-2 py-0.5 rounded border border-accent/30 text-accent bg-accent/5 font-normal">
-                          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                          Ongoing
+                        <span className="text-xs px-2 py-0.5 rounded border border-border text-muted font-normal">
+                          Still releasing
                         </span>
                       )}
                       {playlist.isComplete && (
@@ -332,7 +371,7 @@ export default function PlaylistsPage() {
                 Importing will overwrite your current learning progress and saved notes with the backup data. This action cannot be undone.
               </p>
 
-              <div className="bg-bg/90 border border-border/80 rounded p-3.5 mb-6 flex flex-col gap-2 text-xs">
+              <div className="bg-bg/90 border border-border/80 rounded p-3.5 mb-5 flex flex-col gap-2 text-xs">
                 <div className="flex justify-between items-center text-muted">
                   <span>Current completed videos:</span>
                   <span className="text-text font-medium">{totalCompleted} / {totalVideos}</span>
@@ -342,6 +381,28 @@ export default function PlaylistsPage() {
                   <span className="text-accent font-medium">{pendingImport.incomingCompletedCount}</span>
                 </div>
               </div>
+
+              {/* Red warning line and typing confirmation when incoming has fewer completed videos */}
+              {isLossyImport && (
+                <div className="mb-5">
+                  <div className="text-accent text-sm font-medium mb-3">
+                    This will remove {removedCount} completed videos
+                  </div>
+                  <label htmlFor="replace-input" className="block text-xs text-muted mb-1.5">
+                    Type <span className="font-mono text-text font-semibold">REPLACE</span> to confirm:
+                  </label>
+                  <input
+                    id="replace-input"
+                    type="text"
+                    value={replaceConfirmText}
+                    onChange={(e) => setReplaceConfirmText(e.target.value)}
+                    placeholder="REPLACE"
+                    autoComplete="off"
+                    autoFocus
+                    className="w-full bg-bg border border-border rounded px-3 py-2 text-sm text-text font-mono placeholder:text-faint focus-visible:outline-none focus-visible:border-[#3A3A3A] focus-visible:ring-1 focus-visible:ring-text"
+                  />
+                </div>
+              )}
 
               <div className="flex justify-end gap-3">
                 <button
@@ -353,9 +414,10 @@ export default function PlaylistsPage() {
                 </button>
                 <button
                   type="button"
-                  autoFocus
+                  autoFocus={!isLossyImport}
+                  disabled={!canConfirmImport}
                   onClick={handleConfirmImport}
-                  className="px-4 py-2 text-sm bg-accent text-on-accent font-medium rounded hover:bg-accent-hover transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text focus-visible:ring-offset-2 focus-visible:ring-offset-surface cursor-pointer"
+                  className="px-4 py-2 text-sm bg-accent text-on-accent font-medium rounded hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text focus-visible:ring-offset-2 focus-visible:ring-offset-surface cursor-pointer"
                 >
                   Confirm & Import
                 </button>
