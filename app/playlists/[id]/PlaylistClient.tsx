@@ -397,7 +397,7 @@ function VideoNoteEditor({
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <label htmlFor={`note-${videoId}`} className="text-sm text-text font-medium">
-          What did you do? Problems solved, key takeaways.
+          What did you do or learn? Problems solved, key takeaways.
         </label>
         <textarea
           id={`note-${videoId}`}

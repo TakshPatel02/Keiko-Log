@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Keiko (稽古) — Playlist & Course Tracker",
+  description: "Your playlists and courses, tracked and finished. Mark a video complete, write what you took from it, and watch the list shrink.",
+};
 
 export default function Home() {
   return (
@@ -57,8 +63,7 @@ export default function Home() {
 
         {/* Subtext */}
         <p className="text-base sm:text-lg leading-relaxed text-muted mb-8">
-          Your DSA playlists, tracked and finished. Mark a video complete, write
-          what you solved, and watch the list shrink.
+          Your playlists and courses, tracked and finished. Mark a video complete, write what you took from it, and watch the list shrink.
         </p>
 
         {/* CTA Button */}

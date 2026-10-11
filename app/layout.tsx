@@ -12,9 +12,9 @@ const zenKakuGothicNew = Zen_Kaku_Gothic_New({
 export const metadata: Metadata = {
   title: {
     template: "%s | Keiko",
-    default: "Keiko (稽古)",
+    default: "Keiko (稽古) — Playlist & Course Tracker",
   },
-  description: "A disciplined tracking system for your learning playlists and courses.",
+  description: "A disciplined tracker for your playlists and courses.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

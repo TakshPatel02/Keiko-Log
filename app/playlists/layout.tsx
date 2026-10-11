@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Playlists",
-  description: "Track your progress across multiple courses and playlists.",
+  description: "Track your progress across playlists and courses.",
 };
 
 export default function PlaylistsLayout({
