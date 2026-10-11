@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Keiko (稽古) — Playlist & Course Tracker",
+  title: "Keiko (稽古) - Playlist & Course Tracker",
   description: "Your playlists and courses, tracked and finished. Mark a video complete, write what you took from it, and watch the list shrink.",
 };
 

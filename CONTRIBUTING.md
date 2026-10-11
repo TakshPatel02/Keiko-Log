@@ -2,7 +2,7 @@
 
 Thanks for your interest. Contributions are welcome for bug fixes, UI/UX improvements, and new videos for the existing Chai aur playlists.
 
-**Not accepted:** new unrelated playlists or courses. If you want to track a different course, fork the repo and deploy your own copy — see the [fork guide in the README](./README.md#following-a-different-playlist-or-course-fork-it).
+**Not accepted:** new unrelated playlists or courses. If you want to track a different course, fork the repo and deploy your own copy - see the [fork guide in the README](./README.md#following-a-different-playlist-or-course-fork-it).
 
 ---
 
@@ -57,7 +57,7 @@ chore: update dependencies
 
 Open a GitHub Issue with:
 
-1. Steps to reproduce (be specific — browser, OS, what you clicked)
+1. Steps to reproduce (be specific - browser, OS, what you clicked)
 2. Expected behaviour
 3. Actual behaviour
 4. Browser and version
