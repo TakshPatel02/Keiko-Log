@@ -113,14 +113,52 @@ export default function PlaylistClient({
         </Link>
 
         <header className="mb-10">
-          <div className="flex items-center gap-4 mb-3">
-            <span className="text-[1.75rem] text-muted font-light">{getKanji(index)}</span>
-            <h1 className="text-[2rem] font-medium leading-none">{playlist.title}</h1>
-            {isAllComplete && (
-              <span className="text-accent text-sm font-medium ml-2">完了</span>
-            )}
+          <div className="flex items-baseline flex-wrap gap-x-4 gap-y-2 mb-3">
+            <div className="flex items-center gap-3">
+              <span className="text-[1.75rem] text-muted font-light">{getKanji(index)}</span>
+              <h1 className="text-[2rem] font-medium leading-none">{playlist.title}</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              {playlist.completed ? (
+                <span className="text-xs px-2 py-0.5 rounded border border-border text-muted bg-surface/80 font-normal">
+                  Completed Series
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded border border-accent/30 text-accent bg-accent/5 font-normal">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  Ongoing Series
+                </span>
+              )}
+              {isAllComplete && (
+                <span className="text-accent text-sm font-medium">完了</span>
+              )}
+            </div>
           </div>
-          <p className="text-muted mb-8">{playlist.description}</p>
+          <p className="text-muted mb-6">{playlist.description}</p>
+
+          {/* Playlist Completion Status Notice */}
+          {playlist.completed ? (
+            <div className="flex items-start sm:items-center gap-3 px-4 py-3 rounded-md bg-surface border border-border text-xs text-muted mb-8">
+              <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-border text-text shrink-0 text-[10px] mt-0.5 sm:mt-0 font-bold">
+                ✓
+              </span>
+              <p className="leading-relaxed">
+                <span className="text-text font-medium mr-1.5">Playlist Complete:</span>
+                This playlist is fully completed. All curriculum videos have been published, so no new videos will be added here.
+              </p>
+            </div>
+          ) : (
+            <div className="flex items-start sm:items-center gap-3 px-4 py-3 rounded-md bg-surface border border-accent/25 text-xs text-muted mb-8">
+              <span className="relative flex h-2 w-2 shrink-0 mt-1 sm:mt-0 ml-1 mr-1">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+              </span>
+              <p className="leading-relaxed">
+                <span className="text-text font-medium mr-1.5">Ongoing Playlist:</span>
+                This playlist is currently in progress. More videos will be added here as new lessons are released.
+              </p>
+            </div>
+          )}
 
           <div className="mb-8">
             <div className="h-0.75 bg-[#333] rounded-full overflow-hidden mb-2">
@@ -257,6 +295,23 @@ export default function PlaylistClient({
               </div>
             );
           })}
+        </div>
+
+        {/* End of list indicator */}
+        <div className="mt-8 pt-6 border-t border-border/40 text-center text-xs text-muted">
+          {playlist.completed ? (
+            <p className="flex items-center justify-center gap-2">
+              <span className="text-faint">•</span>
+              <span>This playlist is fully completed. No further videos will be added.</span>
+              <span className="text-faint">•</span>
+            </p>
+          ) : (
+            <p className="flex items-center justify-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+              <span className="text-text font-medium">More videos are coming soon.</span>
+              <span>This series is currently in active development.</span>
+            </p>
+          )}
         </div>
       </div>
 

@@ -10,6 +10,7 @@ export type Playlist = {
   title: string;
   description: string;
   videos: Video[];
+  completed: boolean;
 };
 
 export const playlists: Playlist[] = [
@@ -17,6 +18,7 @@ export const playlists: Playlist[] = [
     id: "dsa-main",
     title: "DSA with Chai aur Code",
     description: "Free DSA course led by Prateek Jain. Pseudocode first, then Python.",
+    completed: true,
     videos: [
       {
         id: "dsa-main-001",
@@ -173,6 +175,7 @@ export const playlists: Playlist[] = [
     id: "leetcode-array",
     title: "Chai aur LeetCode (Array)",
     description: "Pattern-based LeetCode practice on arrays: two pointers, sliding window.",
+    completed: true,
     videos: [
       {
         id: "leetcode-array-001",
@@ -270,6 +273,7 @@ export const playlists: Playlist[] = [
     id: "leetcode-string",
     title: "Chai aur LeetCode (String)",
     description: "String problems from LeetCode, from basics to KMP and backtracking.",
+    completed: false,
     videos: [
       {
         id: "leetcode-string-001",

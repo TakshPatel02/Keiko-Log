@@ -253,9 +253,17 @@ export default function PlaylistsPage() {
                 >
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-[1.75rem] text-muted font-light">{getKanji(index)}</span>
-                    {playlist.isComplete && (
-                      <span className="text-accent text-sm font-medium">完了</span>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {!playlist.completed && (
+                        <span className="inline-flex items-center gap-1.5 text-[0.75rem] px-2 py-0.5 rounded border border-accent/30 text-accent bg-accent/5 font-normal">
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                          Ongoing
+                        </span>
+                      )}
+                      {playlist.isComplete && (
+                        <span className="text-accent text-sm font-medium">完了</span>
+                      )}
+                    </div>
                   </div>
 
                   <h2 className="font-medium text-lg text-text mb-2 line-clamp-1">
