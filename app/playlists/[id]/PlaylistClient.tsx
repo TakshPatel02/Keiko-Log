@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Playlist, Video } from "@/src/data/playlists";
+import { Playlist } from "@/src/data/playlists";
 import { getState, TrackerState, completeVideo, saveNote } from "@/src/lib/storage";
 
 
@@ -49,25 +49,25 @@ export default function PlaylistClient({
     );
   }
 
-  const completedVideosCount = playlist.videos.filter(
+  const completedVideosCount = playlist.resources.filter(
     (v) => state.progress[v.id]?.completedAt
   ).length;
   const isAllComplete =
-    completedVideosCount === playlist.videos.length && playlist.videos.length > 0;
+    completedVideosCount === playlist.resources.length && playlist.resources.length > 0;
   const percent =
-    playlist.videos.length > 0
-      ? Math.round((completedVideosCount / playlist.videos.length) * 100)
+    playlist.resources.length > 0
+      ? Math.round((completedVideosCount / playlist.resources.length) * 100)
       : 0;
 
-  let filteredVideos = playlist.videos;
+  let filteredVideos = playlist.resources;
   if (filter === "Remaining") {
-    filteredVideos = playlist.videos.filter((v) => !state.progress[v.id]?.completedAt);
+    filteredVideos = playlist.resources.filter((v) => !state.progress[v.id]?.completedAt);
   } else if (filter === "Completed") {
-    filteredVideos = playlist.videos.filter((v) => state.progress[v.id]?.completedAt);
+    filteredVideos = playlist.resources.filter((v) => state.progress[v.id]?.completedAt);
   }
 
   // Find the first incomplete video in the whole playlist to mark as NEXT
-  const firstIncompleteId = playlist.videos.find((v) => !state.progress[v.id]?.completedAt)?.id;
+  const firstIncompleteId = playlist.resources.find((v) => !state.progress[v.id]?.completedAt)?.id;
 
   const handleComplete = (videoId: string, note: string) => {
     try {
@@ -165,7 +165,7 @@ export default function PlaylistClient({
             </div>
             <div className="flex justify-between text-[0.8125rem] text-muted">
               <span>
-                {completedVideosCount} / {playlist.videos.length} completed
+                {completedVideosCount} / {playlist.resources.length} completed
               </span>
               <span>{percent}%</span>
             </div>
@@ -195,7 +195,7 @@ export default function PlaylistClient({
             const isExpanded = expandedId === video.id;
             
             // Format 001, 002...
-            const globalIndex = playlist.videos.findIndex((v) => v.id === video.id);
+            const globalIndex = playlist.resources.findIndex((v) => v.id === video.id);
             const indexStr = (globalIndex + 1).toString().padStart(3, "0");
 
             return (

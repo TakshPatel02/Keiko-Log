@@ -191,14 +191,14 @@ export default function PlaylistsPage() {
   let totalCompleted = 0;
 
   const playlistStats = playlists.map((p) => {
-    const completedCount = p.videos.filter((v) => state.progress[v.id]?.completedAt).length;
-    totalVideos += p.videos.length;
+    const completedCount = p.resources.filter((v) => state.progress[v.id]?.completedAt).length;
+    totalVideos += p.resources.length;
     totalCompleted += completedCount;
     return {
       ...p,
       completedCount,
-      totalCount: p.videos.length,
-      isComplete: completedCount === p.videos.length && p.videos.length > 0,
+      totalCount: p.resources.length,
+      isComplete: completedCount === p.resources.length && p.resources.length > 0,
     };
   });
 
