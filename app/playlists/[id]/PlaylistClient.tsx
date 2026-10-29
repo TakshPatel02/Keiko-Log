@@ -274,7 +274,7 @@ export default function PlaylistClient({
                             rel="noopener noreferrer"
                             className="inline-block text-text text-sm mb-6 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-text rounded"
                           >
-                            Open video ↗
+                            Open resource ↗
                           </a>
                         )}
                         
